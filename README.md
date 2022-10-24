@@ -7,7 +7,7 @@
 ### ERD
 - [ERD png 파일](./src/Concert_Survey.png)
 ### SRC
-## Class
+#### Class
 - [메인 클래스](./src/Main.java)
 - [음식 선호도 조사](./src/FoodSurvey.java)
 - [Ott 만족도 조사](./src/OttSurvey.java)
