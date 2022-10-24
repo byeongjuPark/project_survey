@@ -5,9 +5,9 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         
-        String url = "jdbc:mysql://127.0.0.1:3306/study_sqls";
+        String url = "jdbc:mysql://127.0.0.1:3306/project_01";
         String user = "root";
-        String password = "root";
+        String password = "*khacademy!";
         
         Scanner sc = new Scanner(System.in);
         
@@ -31,19 +31,21 @@ public class Main {
         //         System.out.println("선택 >> ");
         //         String ch = sc.next();
                 
-        //         if(ch.equals("P")) {
-        //             OttSurvey ott = new OttSurvey();
-        //             ott.
-        //         } else if (ch.equals("S")) {
-        //             Result result = new Result();
-        //             result.
-        //         } else if (ch.equals("Q")) {
-        //             System.out.println("답변해 주셔서 감사합니다.");
-        //             break;
-        //         }
-        //     }
-         }catch(SQLException e){
-             e.printStackTrace();
+                if(ch.equals("P")) {
+                    OttSurvey ott = new OttSurvey();
+                    ott.OttSurvey(statement);
+                } else if (ch.equals("S")) {
+                    Result result = new Result();
+                    result.calculateParticipants(statement);
+                } else if (ch.equals("Q")) {
+                    System.out.println("답변해 주셔서 감사합니다");
+                    break;
+                } else {
+                    System.out.println("다시 입력해주세요.");
+                }
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
         }
 
         sc.close();
