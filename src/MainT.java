@@ -1,14 +1,13 @@
 import java.sql.*;
 
-public class Main {
+public class MainT {
     public static void main(String[] args) throws Exception {
-
 
         String url = "jdbc:mysql://127.0.0.1:3306/semi_project";
         String user = "root";
         String password = "root";
 
-        try{
+        try {
             // mysql 접속
             Connection connection = DriverManager.getConnection(url, user, password);
             System.out.println("DB 접속 완료");
@@ -16,24 +15,10 @@ public class Main {
 
             // 설문 클래스 선언
             new Result().calculateParticipants(statement);
-            
-            
-    
-        }catch(SQLException e){
+
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
-        // while(true){
-
-        //     switch(input)
-        //     case S:
-        //         new Select(statement);
-        //         break;
-        //     case Q:
-        //         exit();break
-        // }
-
 
     }
 }
