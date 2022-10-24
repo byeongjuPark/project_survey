@@ -15,12 +15,12 @@ public class Main {
         try{
             // mysql 접속
             Connection connection = DriverManager.getConnection(url, user, password);
-            
+            System.out.println("DB 접속 완료");
             Statement statement = connection.createStatement();
 
             // 설문 클래스 선언
-            OttSurvey ottSurvey = new OttSurvey(statement);
-            Result resultSurvey = new Result(statement);
+            new Result().calculateParticipants(statement);
+            
             
     
             while(true) {

@@ -58,5 +58,18 @@ INNER JOIN questions_answers ON questions_answers.QUESTIONS_UID = questions.QUES
 INNER JOIN answers ON questions_answers.ANSWER_UID = answers.ANSWER_UID
 WHERE questions.QUESTIONS_UID = '1';
 -- 사용자 답 입력
-INSERT INTO result (PARTICIPANTS_UID, ANSWER_UID, QUESTIONS_UID) VALUES ('1', '1', '1');
+INSERT INTO result (PARTICIPANTS_UID, ANSWER_UID, QUESTIONS_UID) VALUES ('1', '1', '1'),
+('1', '3', '2'),
+('1', '3', '3'),
+('1', '4', '4'),
+('1', '5', '5'),
+('1', '2', '6'),
+('1', '4', '7');
+-- 설문자별 답항 통계
+SELECT QUESTIONS_UID ,NAME, participants.PARTICIPANTS_UID, answers.ANSWER_UID FROM result 
+INNER JOIN participants ON result.PARTICIPANTS_UID = participants.PARTICIPANTS_UID 
+INNER JOIN answers ON result.ANSWER_UID = answers.ANSWER_UID 
+ -- group by NAME
+ORDER BY NAME, QUESTIONS_UID;
+
 
