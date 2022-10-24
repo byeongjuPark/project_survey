@@ -9,7 +9,7 @@
 ### SRC
 
 ## Main Class
-[Main.java](./src/Main.java)
+- [Main.java](./src/Main.java)
 ## Class
 - [음식 선호도 조사](./src/FoodSurvey.java)
 - [Ott 만족도 조사](./src/OttSurvey.java)
