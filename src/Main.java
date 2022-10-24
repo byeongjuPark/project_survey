@@ -19,24 +19,23 @@ public class Main {
             Statement statement = connection.createStatement();
 
             // 설문 클래스 선언
-            new Result().calculateParticipants(statement);
+            
             
             
     
-        //     while(true) {
-        //         System.out.println("----------------------------------------");
-        //         System.out.println("설문조사 프로그램 \n P. 설문 시작 \n S. 통계 \n Q. 종료");
-        //         System.out.println("----------------------------------------");
+            while(true) {
+                System.out.println("----------------------------------------");
+                System.out.println("설문조사 프로그램 \n P. 설문 시작 \n S. 통계 \n Q. 종료");
+                System.out.println("----------------------------------------");
                 
-        //         System.out.println("선택 >> ");
-        //         String ch = sc.next();
+                System.out.println("선택 >> ");
+                String ch = sc.next();
                 
                 if(ch.equals("P")) {
-                    OttSurvey ott = new OttSurvey();
-                    ott.OttSurvey(statement);
+                    //OttSurvey ott = new OttSurvey();
+                    //ott.OttSurvey(statement);
                 } else if (ch.equals("S")) {
-                    Result result = new Result();
-                    result.calculateParticipants(statement);
+                    new Result().printCalMenu(statement);
                 } else if (ch.equals("Q")) {
                     System.out.println("답변해 주셔서 감사합니다");
                     break;
