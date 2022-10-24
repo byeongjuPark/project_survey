@@ -18,9 +18,8 @@ public class Main {
             Statement statement = connection.createStatement();
 
             // 설문 클래스 선언
-            FoodSurvey foodSurvey = new FoodSurvey();
-            OttSurvey ottSurvey = new OttSurvey();
-            ConcertSurvey concertSurvey = new ConcertSurvey();
+            OttSurvey ottSurvey = new OttSurvey(statement);
+            Result resultSurvey = new Result(statement);
             
     
         }catch(SQLException e){
