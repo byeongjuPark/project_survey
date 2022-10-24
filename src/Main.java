@@ -33,13 +33,15 @@ public class Main {
                 
                 if(ch.equals("P")) {
                     OttSurvey ott = new OttSurvey();
-                    ott.
+                    ott.OttSurvey(statement);
                 } else if (ch.equals("S")) {
                     Result result = new Result();
-                    result.
+                    result.calculateParticipants(statement);
                 } else if (ch.equals("Q")) {
-                    System.out.println("답변해 주셔서 감사합니다.");
+                    System.out.println("답변해 주셔서 감사합니다");
                     break;
+                } else {
+                    System.out.println("다시 입력해주세요.");
                 }
             }
         }catch(SQLException e){
