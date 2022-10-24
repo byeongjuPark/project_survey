@@ -1,7 +1,6 @@
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.concurrent.CountDownLatch;
 
 public class Result {
     Scanner sc = new Scanner(System.in);
