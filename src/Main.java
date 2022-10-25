@@ -5,7 +5,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         
-        String url = "jdbc:mysql://127.0.0.1:3306/project_survey";
+        String url = "jdbc:mysql://127.0.0.1:3306/semi_project";
         String user = "root";
         String password = "*khacademy!";
         
