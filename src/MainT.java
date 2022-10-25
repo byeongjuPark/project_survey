@@ -15,8 +15,8 @@ public class MainT {
             PreparedStatement preparedStatement = null;
 
             // 설문 클래스 선언
-            new Result().calculateParticipants(connection ,statement, preparedStatement);
-
+            //new Result().calculateParticipants(connection ,statement, preparedStatement);
+            new ott().printSurveyMenu(statement);
         } catch (SQLException e) {
             e.printStackTrace();
         }
