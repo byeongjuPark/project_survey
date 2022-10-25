@@ -5,7 +5,7 @@ public class MainT {
 
         String url = "jdbc:mysql://127.0.0.1:3306/semi_project";
         String user = "root";
-        String password = "root";
+        String password = "*khacademy!";
 
         try {
             // mysql 접속
@@ -15,8 +15,8 @@ public class MainT {
             PreparedStatement preparedStatement = null;
 
             // 설문 클래스 선언
-            new Result().calculateParticipants(connection ,statement, preparedStatement);
-
+            //new Result().calculateParticipants(connection ,statement, preparedStatement);
+            new OttSurvey().runSurvey(connection ,statement, preparedStatement); 
         } catch (SQLException e) {
             e.printStackTrace();
         }

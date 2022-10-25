@@ -35,14 +35,17 @@ Scanner sc = new Scanner(System.in);
             System.out.println("-------------------------------------------");
 
             while (rs.next()) {
-               String question_uid = rs.getString("QUESTION_UID");
-               System.out.println("Q" + question_uid + ".");
+               String questions_uid = rs.getString("QUESTIONS_UID");
+               System.out.println("Q" + questions_uid + ".");
                System.out.println(rs.getString("CONTENTS"));
-               answerList(statement, participants_uid, question_uid); // 답변리스트 조회로
+               answerList(statement, participants_uid, questions_uid); // 답변리스트 조회로
             }
 
+            rs.close();
+            
          } catch (SQLException e) {
             e.printStackTrace();
+            
          }
 
       }
@@ -57,16 +60,24 @@ Scanner sc = new Scanner(System.in);
 
          while (rs.next()) {
             String answer_uid = rs.getString("ANSWER_UID");
-            System.out.println("A" + answer_uid + ".");
-            System.out.println(rs.getString("ANSWER"));
+            System.out.print("A" + answer_uid + ".");
+            System.out.print(rs.getString("ANSWER")+"    ");
+         }
+            System.out.println("      ");
             System.out.println("답:>>>");
             String answer_id = sc.nextLine();
             saveSurvey(statement, participants_uid, answer_id, question_uid);
-         }
-      } catch (Exception e) {
+      
+      } catch (SQLException e) {
          e.printStackTrace();
       }
    }
+
+   //오류 1. java.sql.SQLException: Statement.executeQuery() cannot issue statements that do not produce result sets. 
+   // : Statement.executeQuery()는 ResultSet을 반환하는 메소드... 근데 고쳐봐도 해결이 안됨; insert문에 executeQuery 아니고 execute를 사용하면 다른 에러가 뜸.(Cannot add or update a child row: a foreign key constraint fails)
+   
+   //오류 2. java.sql.SQLException: Operation not allowed after ResultSet closed 
+   //statement의 executeQuery는 반복 수행할 수 없다->한 번 수행 후에는 close 후에 반복될 때마다 statement를 새로 생성해서 사용해보기
 
    // result 결과값 저장하는 쿼리
    public void saveSurvey(Statement statement, String participants_uid, String answer_uid, String question_uid) {
@@ -75,7 +86,7 @@ Scanner sc = new Scanner(System.in);
 
          statement.executeQuery(query);
 
-      } catch (Exception e) {
+      } catch (SQLException e) {
          e.printStackTrace();
       }
    }

@@ -61,10 +61,8 @@ public class Result {
     // 2. 질문 별 총 답변 수
     //sql에서 통계를 낼건지..vs 자바로 통계를 낼건지...
     public void calculateAnswers(Connection connection, Statement statement, PreparedStatement preparedStatement) {
-<<<<<<< HEAD
-        System.out.println("질문 별 총 답변 수");
-=======
->>>>>>> b97de5ef2636977112b6cdf39cc6df792c0782ab
+    System.out.println("질문 별 총 답변 수");
+
         try {
             String queryAnswer = "SELECT COUNT(QUESTIONS_UID) FROM QUESTIONS;";
             preparedStatement = connection.prepareStatement(queryAnswer);
