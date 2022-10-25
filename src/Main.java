@@ -17,6 +17,7 @@ public class Main {
             Connection connection = DriverManager.getConnection(url, user, password);
             System.out.println("DB 접속 완료");
             Statement statement = connection.createStatement();
+            PreparedStatement preparedStatement = null;
 
             // 설문 클래스 선언
             
@@ -35,7 +36,7 @@ public class Main {
                     //OttSurvey ott = new OttSurvey();
                     //ott.OttSurvey(statement);
                 } else if (ch.equals("S")) {
-                    //new Result().printCalMenu(statement);
+                    new Result().calculateParticipants(connection ,statement, preparedStatement);
                 } else if (ch.equals("Q")) {
                     System.out.println("답변해 주셔서 감사합니다");
                     break;
