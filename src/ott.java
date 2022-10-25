@@ -7,12 +7,12 @@ public class ott {
     public void printSurveyMenu(Statement statement){
         String input;
         while(true){
-  
+
              System.out.println("-------------------------");
              System.out.println("설문지 목록");
              System.out.println("1. OTT 구독 서비스 만족도 \n 2.기타 \n 3. 기타");
              System.out.println("-------------------------");
-  
+
              input = sc.next();
              if(input.equals("1")){
                 runSurvey(statement);
@@ -39,6 +39,5 @@ public class ott {
         }catch(SQLException e){
             e.printStackTrace();
         }
-       
     }
 }
