@@ -19,7 +19,7 @@ public class Result {
                 calculateParticipants(connection, statement, preparedStatement);
                 break;
             } else if (input.equals("2")) {
-                calculateAnswers(statement);
+                calculateAnswers(connection, statement, preparedStatement);
                 break;
             } else {
                 System.out.println("* 잘못된 입력입니다.");
@@ -60,7 +60,7 @@ public class Result {
 
     // 2. 질문 별 총 답변 수
     //sql에서 통계를 낼건지..vs 자바로 통계를 낼건지...
-    public void calculateAnswers(Statement statement) {
+    public void calculateAnswers(Connection connection, Statement statement, PreparedStatement preparedStatement) {
         try {
             String query = "";
             ResultSet resultSet = statement.executeQuery(query);
