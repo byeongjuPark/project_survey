@@ -19,7 +19,7 @@ public class Result {
                 calculateParticipants(connection, statement, preparedStatement);
                 break;
             } else if (input.equals("2")) {
-                calculateAnswers(statement);
+                calculateAnswers(connection, statement, preparedStatement);
                 break;
             } else {
                 System.out.println("* 잘못된 입력입니다.");
@@ -60,10 +60,53 @@ public class Result {
 
     // 2. 질문 별 총 답변 수
     //sql에서 통계를 낼건지..vs 자바로 통계를 낼건지...
-    public void calculateAnswers(Statement statement) {
+    public void calculateAnswers(Connection connection, Statement statement, PreparedStatement preparedStatement) {
+        System.out.println("질문 별 총 답변 수");
         try {
-            String query = "";
-            ResultSet resultSet = statement.executeQuery(query);
+            String queryAnswer = "SELECT COUNT(QUESTIONS_UID) FROM QUESTIONS;";
+            preparedStatement = connection.prepareStatement(queryAnswer);
+            ResultSet resultSet_QuestionCount = statement.executeQuery("select count(Questions_uid) from Questions");
+            int qC = 0;
+            while(resultSet_QuestionCount.next()) {
+                qC = Integer.parseInt(resultSet_QuestionCount.getString("count(Questions_uid)"));
+            }
+
+            for (int i = 0; i<qC; i++) {
+                String Questions = "Q"+(i+1);
+                preparedStatement.setString(1, Questions);
+                preparedStatement.setString(2, Questions);
+                preparedStatement.setString(3, Questions);
+                preparedStatement.setString(4, Questions);
+                preparedStatement.setString(5, Questions);
+                preparedStatement.setString(6, Questions);
+                preparedStatement.setString(7, Questions);
+
+                ResultSet resultSet = preparedStatement.executeQuery();
+
+                resultSet.next();
+                int count1, count2, count3, count4, count5;
+                count1 = resultSet.getInt("1");
+                count2 = resultSet.getInt("2");
+                count3 = resultSet.getInt("3");
+                count4 = resultSet.getInt("4");
+                count5 = resultSet.getInt("5");
+
+                System.out.printf("질문" + (i+1), count1, count2, count3, count4, count5);
+
+            }
+            /*/
+            ResultSet result_AnswerCount = statement.executeQuery("select count(answer_uid) from answers");
+            int answerCount = 0;
+            while(result_AnswerCount.next()) {
+                answerCount = Integer.parseInt(result_AnswerCount.getString("count(answer_uid)"));
+            }
+
+            ResultSet result_Question = statement.executeQuery("select count(questions_uid) from questions");
+            int questionCount = 0;
+            while(result_Question.next()) {
+                questionCount = Integer.parseInt(result_Question.getString("count(Questions_uid)"));
+                */
+            
         } catch (SQLException e) {
             e.printStackTrace();
         }
