@@ -1,95 +1,85 @@
 import java.sql.*;
 import java.util.Scanner;
 
-public class OttSurvey{
-   public OttSurvey(Statement statement){
 
-      
-      Scanner sc = new Scanner(System.in);
+public class OttSurvey {
 
-      String input;
-      while(true){
 
-         System.out.println("-------------------------");
-         System.out.println("설문지 목록");
-         System.out.println("1. OTT 구독 서비스 만족도 \n 2.기타 \n 3. 기타");
-         System.out.println("-------------------------");
+Scanner sc = new Scanner(System.in);
 
-         input = sc.next();
-         if(input.equals("1"){
-            OttSurvey(statement);
-            break;
-        }else{
-            System.out.println("* 잘못된 입력입니다.");
-            continue;
-      
+   public void runSurvey(Connection connection, Statement statement, PreparedStatement preparedStatement) {
 
-      System.out.println("이름을 입력하세요");
+      String query = "SELECT * FROM questions ORDER BY QUESTIONS_UID"; // 질문 리스트 조회
+      // 입력값 name을 받아서 사용자 번호 조회, pre~사용 쿼리문
+      String queryUid = "SELECT PARTICIPANTS_UID, NAME FROM PARTICIPANTS WHERE NAME =?";
+
+      System.out.println("이름을 입력하세요.");
       String name = sc.nextLine();
 
+      if (name.equals("")) {
+         System.out.println("잘못된 입력입니다.");
 
-      System.out.println("– 모든 질문의 답은 한가지만 선택 가능합니다.");
-      System.out.println("-------------------------------------------");
+      } else {
 
-      //질문 select 해서 담아온 객체
-      String query = "SELECT * FROM semi_project.questions";
-      ResultSet questionRs;
+         try {
+            // 질문 쿼리 조회 실행
+            ResultSet rs = statement.executeQuery(query);
+            // 사용자 번호 조회 쿼리 실행
+            preparedStatement = connection.prepareStatement(queryUid);
+            preparedStatement.setString(1, name); // 쿼리의 ? 첫번째 자리에 name을 넣음
+            ResultSet rsl = preparedStatement.executeQuery();
+            rsl.next();
+            String participants_uid = rsl.getString("PARTICIPANTS_UID");
 
-      //답안 select 해서 담아온 객체
-      String query1 = "SELECT * FROM answers";
-      
-      ResultSet answerRs;
+            System.out.println("-모든 질문의 답은 한가지만 선택 가능합니다.-");
+            System.out.println("-------------------------------------------");
 
-      String query3 = "SELECT * FROM semi_project.participants WHERE PARTICIPANTS_UID IN(1,2,3)";
+            while (rs.next()) {
+               String question_uid = rs.getString("QUESTION_UID");
+               System.out.println("Q" + question_uid + ".");
+               System.out.println(rs.getString("CONTENTS"));
+               answerList(statement, participants_uid, question_uid); // 답변리스트 조회로
+            }
 
-      ResultSet parRs;
+         } catch (SQLException e) {
+            e.printStackTrace();
+         }
+
+      }
+   }
+
+   //
+   public void answerList(Statement statement, String participants_uid, String question_uid) {
+      String query = "SELECT * FROM ANSWERS ORDER BY ANSWER_UID";
 
       try {
-         questionRs = statement.executeQuery(query);
-         answerRs = statement.executeQuery(query1);
-         parRs = statement.executeQuery(query3);
+         ResultSet rs = statement.executeQuery(query);
 
-         //질문 문항 
-         while(questionRs.next()){  //next()는 다음 행이 있다면 true, while문이 true때까지 반복해서 돎.    
-          
-          //출력시 Q1. ~ 나옴.
-            String question_uid = questionRs.getString("QUESTION_UID");
-            System.out.println("Q"+ question_uid+".");
-
-          //출력시 문항 내용 나옴.  
-            System.out.println("CONTENTS:"+questionRs.getString("CONTENTS"));
-
-            while(answerRs.next()){
-               String answer_uid = answerRs.getString("ANSWER_UID");
-               System.out.println("A"+answer_uid+".");
-               System.out.println("ANSWER"+answerRs.getString("ANSWERS"));
-
-             
-               String participants_uid = parRs.getString("PARTICIPANTS_UID");
-               System.out.println("P"+participants_uid+".");
-               System.out.println(name+parRs.getString("NAME"));
-
-               //답안을 스캐너로 받기
-
-               System.out.println("답:>>>");
-               String answer = sc.nextLine(); 
-
-       
-              //결과값
-              String query2 = "INSERT INTO result (PARTICIPANTS_UID, ANSWER_UID, QUESTIONS_UID) VALUES ('participants_uid', 'answer_uid', 'question_uid')";
-               statement.executeQuery(query2);
-            
-            
-              }
-              System.out.println();
-            }
-         } catch (Exception e) {
-      }  
+         while (rs.next()) {
+            String answer_uid = rs.getString("ANSWER_UID");
+            System.out.println("A" + answer_uid + ".");
+            System.out.println(rs.getString("ANSWER"));
+            System.out.println("답:>>>");
+            String answer_id = sc.nextLine();
+            saveSurvey(statement, participants_uid, answer_id, question_uid);
+         }
+      } catch (Exception e) {
+         e.printStackTrace();
+      }
    }
-}
+
+   // result 결과값 저장하는 쿼리
+   public void saveSurvey(Statement statement, String participants_uid, String answer_uid, String question_uid) {
+      try {
+         String query = "INSERT INTO result (PARTICIPANTS_UID, ANSWER_UID, QUESTIONS_UID) VALUES ('participants_uid', 'answer_uid', 'question_uid')";
+
+         statement.executeQuery(query);
+
+      } catch (Exception e) {
+         e.printStackTrace();
+      }
    }
-}
-            
+}        
          
       
     /*  -- 회원 가입
