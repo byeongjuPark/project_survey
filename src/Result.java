@@ -59,6 +59,7 @@ public class Result {
     }
 
     // 2. 질문 별 총 답변 수
+    //sql에서 통계를 낼건지..vs 자바로 통계를 낼건지...
     public void calculateAnswers(Statement statement) {
         try {
             String query = "";
