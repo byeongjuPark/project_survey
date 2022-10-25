@@ -1,40 +1,8 @@
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Result {
     Scanner sc = new Scanner(System.in);
-    class Answer{
-        private String pid;
-        private String name;
-        private String answers;
-
-
-	public String getPid() {
-		return this.pid;
-	}
-
-	public void setPid(String uid) {
-		this.pid = uid;
-	}
-
-	public String getName() {
-		return this.name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-    public String getAnswers() {
-        return this.answers;
-    }
-
-    public void setAnswers(String answers) {
-        this.answers = answers;
-    }
-        
-    }
     //ArrayList<String> list = null;
     // 0. 초기 출력
     public void printCalMenu(Connection connection ,Statement statement, PreparedStatement preparedStatement){
