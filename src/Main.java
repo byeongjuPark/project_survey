@@ -35,7 +35,7 @@ public class Main {
                     //OttSurvey ott = new OttSurvey();
                     //ott.OttSurvey(statement);
                 } else if (ch.equals("S")) {
-                    new Result().printCalMenu(statement);
+                    //new Result().printCalMenu(statement);
                 } else if (ch.equals("Q")) {
                     System.out.println("답변해 주셔서 감사합니다");
                     break;

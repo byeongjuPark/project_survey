@@ -4,15 +4,41 @@ import java.util.Scanner;
 
 public class Result {
     Scanner sc = new Scanner(System.in);
-    class user{
-        String uid;
-        String name;
+    class Answer{
+        private String pid;
+        private String name;
+        private String answers;
+
+
+	public String getPid() {
+		return this.pid;
+	}
+
+	public void setPid(String uid) {
+		this.pid = uid;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+    public String getAnswers() {
+        return this.answers;
+    }
+
+    public void setAnswers(String answers) {
+        this.answers = answers;
+    }
         
     }
-    ArrayList<String> list = null;
+    //ArrayList<String> list = null;
     // 0. 초기 출력
-    public void printCalMenu(Statement statement){
-
+    public void printCalMenu(Connection connection ,Statement statement, PreparedStatement preparedStatement){
+        
         String input;
         while(true){
             System.out.println("------------------------------------------------");
@@ -21,7 +47,7 @@ public class Result {
             System.out.println(">>");
             input = sc.next();
             if(input.equals("1")){
-                calculateAnswers(statement);
+                calculateParticipants(connection ,statement, preparedStatement);
                 break;
             }else if(input.equals("2")){
                 calculateAnswers(statement);
@@ -35,22 +61,32 @@ public class Result {
     }
     
     // 1. 설문자별 답변 결과
-    public void calculateParticipants(Statement statement){
-        
+    public void calculateParticipants(Connection connection ,Statement statement, PreparedStatement preparedStatement){
+       
         try{
-            list = new ArrayList<>();
+           
 
-            String query = "SELECT QUESTIONS_UID, participants.PARTICIPANTS_UID, NAME, answers.ANSWER_UID FROM result INNER JOIN participants ON result.PARTICIPANTS_UID = participants.PARTICIPANTS_UID INNER JOIN answers ON result.ANSWER_UID = answers.ANSWER_UID ORDER BY NAME, QUESTIONS_UID;";
+            String query = "SELECT PARTICIPANTS_UID, NAME FROM participants";
+            String queryAnswer = "SELECT ANSWER_UID FROM RESULT WHERE PARTICIPANTS_UID = ? ORDER BY QUESTIONS_UID;";
             ResultSet resultSet = statement.executeQuery(query);
+            preparedStatement = connection.prepareStatement(queryAnswer);
+            
 
+            System.out.println("         Q1   Q2   Q3   Q4   Q5   Q6   Q7");
+            System.out.println("이름)");
             while(resultSet.next()){
-                
-                
-
-                //아무것도 모르겠음
-                
-                
+                System.out.print(resultSet.getString("NAME")+"   ");
+                String PID = resultSet.getString("PARTICIPANTS_UID");
+                preparedStatement.setString(1, PID);
+                ResultSet resultSetAnswer = preparedStatement.executeQuery();
+                while(resultSetAnswer.next()){
+                    System.out.print(resultSetAnswer.getString("ANSWER_UID"));
+                    System.out.print("    ");
+                }
+                System.out.println("");
             }
+          
+
 
         }catch(SQLException e){
             e.printStackTrace();
