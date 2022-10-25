@@ -12,9 +12,10 @@ public class MainT {
             Connection connection = DriverManager.getConnection(url, user, password);
             System.out.println("DB 접속 완료");
             Statement statement = connection.createStatement();
+            PreparedStatement preparedStatement = null;
 
             // 설문 클래스 선언
-            new Result().calculateParticipants(statement);
+            new Result().calculateParticipants(connection ,statement, preparedStatement);
 
         } catch (SQLException e) {
             e.printStackTrace();
