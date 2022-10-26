@@ -32,10 +32,6 @@ public class OttSurvey {
                lastPid = Integer.parseInt(rsl.getString("PARTICIPANTS_UID"));
             }
             lastPid++; //--> sql insert 할 때 넣어야 할 PID
-            // rsl.next();
-            // String participants_uid = rsl.getString("PARTICIPANTS_UID");
-            System.out.println(lastPid + "+++++++++++++++++++++++++++");
-
 
             System.out.println("-모든 질문의 답은 한가지만 선택 가능합니다.-");
             System.out.println("-------------------------------------------");
@@ -46,10 +42,6 @@ public class OttSurvey {
                System.out.println(rs.getString("CONTENTS"));
                answerList(connection ,preparedStatement ,statement, name, Integer.toString(lastPid), questions_uid); // 답변리스트 조회로
             }
-               
-               // connection.close();
-               // preparedStatement.close();
-               // statement.close();
                
          } catch (SQLException e) {
             e.printStackTrace();
@@ -79,10 +71,6 @@ public class OttSurvey {
             String answer_id = sc.nextLine();  
             saveSurvey(connection, preparedStatement, statement, name, lastPid, questions_uid, answer_id);
             
-
-         // connection.close();
-         // preparedStatement.close();
-         // statement.close();
       } catch (SQLException e) {
          e.printStackTrace();
       }
