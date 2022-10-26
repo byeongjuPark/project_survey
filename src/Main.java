@@ -7,7 +7,7 @@ public class Main {
         
         String url = "jdbc:mysql://127.0.0.1:3306/semi_project";
         String user = "root";
-        String password = "*khacademy!";
+        String password = "root";
         
         
         
@@ -22,24 +22,19 @@ public class Main {
             PreparedStatement preparedStatement = null;
 
             // 설문 클래스 선언
-            
-            
-            
-    
+
             while(true) {
                 System.out.println("----------------------------------------");
                 System.out.println("설문조사 프로그램 \n P. 설문 시작 \n S. 통계 \n Q. 종료");
                 System.out.println("----------------------------------------");
                 
-                System.out.println("선택 >> ");
+                System.out.print("선택 >> ");
                 String ch = sc.next();
                 
                 if(ch.equals("P")) {
-                    //OttSurvey ott = new OttSurvey();
-                    //ott.OttSurvey(statement);
+                    new OttSurvey().runSurvey(connection ,statement, preparedStatement); 
                 } else if (ch.equals("S")) {
                     new Result().printCalMenu(connection ,statement, preparedStatement);
-                    new Result().calculateAnswers(connection ,statement, preparedStatement);
                 } else if (ch.equals("Q")) {
                     System.out.println("답변해 주셔서 감사합니다");
                     break;
