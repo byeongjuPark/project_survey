@@ -3,7 +3,8 @@ import java.util.Scanner;
 
 public class Result {
     Scanner sc = new Scanner(System.in);
-    int check =0;
+    int check = 0;
+
     // ArrayList<String> list = null;
     // 0. 초기 출력
     public void printCalMenu(Connection connection, Statement statement, PreparedStatement preparedStatement) {
@@ -59,25 +60,47 @@ public class Result {
         }
     }
 
+    public int getLastPid() {
+        String url = "jdbc:mysql://127.0.0.1:3306/semi_project";
+        String user = "root";
+        String password = "root";
+        String sql = "SELECT PARTICIPANTS_UID FROM PARTICIPANTS";
+        int lastPid = 0;
+        
+        
+        try {
+            Connection connection = DriverManager.getConnection(url, user, password);
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            while(rs.next()){
+                lastPid = Integer.parseInt(rs.getString("PARTICIPANTS_UID"));
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return lastPid;
+    }
+
     // 2. 질문 별 총 답변 수
     // sql에서 통계를 낼건지..vs 자바로 통계를 낼건지...
     public void calculateAnswers(Connection connection, Statement statement, PreparedStatement preparedStatement) {
-        System.out.println("    답(1)   답(2)   답(3)   답(4)   답(5)");
-        
         try {
-            
+            System.out.println("    답(1)   답(2)   답(3)   답(4)   답(5)");
             String queryAnswer = "SELECT QUESTIONS_UID,ANSWER_UID FROM result ORDER BY QUESTIONS_UID;";
             String queryAnswer2 = "SELECT QUESTIONS_UID,ANSWER_UID FROM result WHERE QUESTIONS_UID = ? ORDER BY QUESTIONS_UID;";
-            preparedStatement = connection.prepareStatement(queryAnswer2);
+
             ResultSet rs = statement.executeQuery(queryAnswer);
-            while (rs.next()) { // 문항번호를 돌리는 while문
+            preparedStatement = connection.prepareStatement(queryAnswer2);
+
+            while (rs.next()) {
                 int resultArr[] = { 0, 0, 0, 0, 0 };
                 String qid = rs.getString("QUESTIONS_UID");
-                preparedStatement.setString(1, qid); //
-                ResultSet rs2 = preparedStatement.executeQuery();
-                check++;
-                while (rs2.next()) {// 답을 돌리는 while문
-                    
+                ResultSet rs2;
+                int getCheckPid = getLastPid();
+                preparedStatement.setString(1, qid);
+                rs2 = preparedStatement.executeQuery();
+                while (rs2.next()) {
                     if (rs2.getString("ANSWER_UID").equals("1")) {
                         resultArr[0]++;
                     } else if (rs2.getString("ANSWER_UID").equals("2")) {
@@ -90,25 +113,22 @@ public class Result {
                         resultArr[4]++;
                     }
                 }
-                if(check == 2){
-                   
+                check ++;
+                if (check == getCheckPid) { //
+
                     System.out.print("Q" + rs.getString("QUESTIONS_UID") + "   ");
-                    for(int i = 0; i<5; i++){
+                    for (int i = 0; i < 5; i++) {
                         System.out.print(resultArr[i] + "       ");
                     }
                     System.out.println();
-                    check=0;
-                   
-                }
-                
-                
-
+                    check = 0;
+                }   
             }
 
-
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 }
 
