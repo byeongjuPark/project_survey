@@ -80,9 +80,15 @@ public class Result {
                         resultArr[0]++;
                     }else if(rs.getString("ANSWER_UID").equals("2")){
                         resultArr[1]++;
+                    } else if(rs.getString("ANSWER_UID").equals("3")) {
+                        resultArr[2]++;
+                    } else if(rs.getString("ANSWER_UID").equals("4")) {
+                        resultArr[3]++;
+                    } else if(rs.getString("ANSWER_UID").equals("5")) {
+                        resultArr[4]++;
                     }
                 }
-                //출력문...
+              System.out.print(resultArr+ "");
             }
 
             
@@ -123,7 +129,7 @@ public class Result {
 
             //     System.out.printf("질문" + (i+1), count1, count2, count3, count4, count5);
 
-            }
+            
             /*/
             ResultSet result_AnswerCount = statement.executeQuery("select count(answer_uid) from answers");
             int answerCount = 0;
