@@ -3,12 +3,11 @@ import java.util.Scanner;
 
 
 public class OttSurvey {
-
-
-Scanner sc = new Scanner(System.in);
+   int check = 0;
+   Scanner sc = new Scanner(System.in);
 
    public void runSurvey(Connection connection, Statement statement, PreparedStatement preparedStatement) {
-
+      
       String query = "SELECT * FROM questions ORDER BY QUESTIONS_UID"; // 질문 리스트 조회
       // 입력값 name을 받아서 사용자 번호 조회, pre~사용 쿼리문
       String queryUid = "SELECT PARTICIPANTS_UID, NAME FROM PARTICIPANTS";
@@ -47,9 +46,11 @@ Scanner sc = new Scanner(System.in);
                System.out.println(rs.getString("CONTENTS"));
                answerList(connection ,preparedStatement ,statement, name, Integer.toString(lastPid), questions_uid); // 답변리스트 조회로
             }
-
-            rs.close();
-            
+               
+               // connection.close();
+               // preparedStatement.close();
+               // statement.close();
+               
          } catch (SQLException e) {
             e.printStackTrace();
             
@@ -63,18 +64,25 @@ Scanner sc = new Scanner(System.in);
       String query = "SELECT * FROM ANSWERS ORDER BY ANSWER_UID";
 
       try {
-         ResultSet rs = statement.executeQuery(query);
+         Statement st = connection.createStatement();
+         ResultSet rs = st.executeQuery(query);
+         String answer_uid="";
 
          while (rs.next()) {
-            String answer_uid = rs.getString("ANSWER_UID");
+            
+            answer_uid = rs.getString("ANSWER_UID");
             System.out.print("A" + answer_uid + ".");
             System.out.print(rs.getString("ANSWER")+"    ");
          }
             System.out.println("      ");
             System.out.println("답:>>>");
-            String answer_id = sc.nextLine();
-            //saveSurvey(connection, preparedStatement, statement, name, lastPid, questions_uid, answer_uid);
-      
+            String answer_id = sc.nextLine();  
+            saveSurvey(connection, preparedStatement, statement, name, lastPid, questions_uid, answer_id);
+            
+
+         // connection.close();
+         // preparedStatement.close();
+         // statement.close();
       } catch (SQLException e) {
          e.printStackTrace();
       }
@@ -88,15 +96,30 @@ Scanner sc = new Scanner(System.in);
 
    // result 결과값 저장하는 쿼리
    public void saveSurvey(Connection connection, PreparedStatement preparedStatement, Statement statement, 
-   String name, String lastPid, String questions_uid, String answer_uid) {
+   String name, String lastPid, String questions_uid, String answer_id) {
       try {
-         String query = "INSERT INTO result (PARTICIPANTS_UID, ANSWER_UID, QUESTIONS_UID) VALUES (?, ?, ?)";
+         
+         String q= "INSERT INTO participants (`PARTICIPANTS_UID`, `NAME`) VALUES (?,?)";
+         String query = "INSERT INTO result (PARTICIPANTS_UID, QUESTIONS_UID, ANSWER_UID) VALUES (?, ?, ?)";
+         
+         if(check == 0){
+            preparedStatement = connection.prepareStatement(q);
+         
+            preparedStatement.setString(1, lastPid);
+            preparedStatement.setString(2, name);
+            preparedStatement.execute();
+            check++;
+         }
+         
          preparedStatement = connection.prepareStatement(query);
-         //preparedStatement.setString(1, participants_uid);
-         preparedStatement.setString(2, answer_uid);
-         preparedStatement.setString(3, questions_uid);
-         preparedStatement.executeQuery();
-
+         
+         preparedStatement.setString(1, lastPid);
+         preparedStatement.setString(2, questions_uid);
+         preparedStatement.setString(3, answer_id);
+         preparedStatement.execute();
+         // connection.close();
+         // preparedStatement.close();
+         // statement.close();
       } catch (SQLException e) {
          e.printStackTrace();
       }
@@ -115,5 +138,4 @@ Scanner sc = new Scanner(System.in);
       INSERT INTO result (PARTICIPANTS_UID, ANSWER_UID, QUESTIONS_UID) VALUES ('1', '1', '1');*/
 
    
-
 
