@@ -5,7 +5,7 @@ public class MainT {
 
         String url = "jdbc:mysql://127.0.0.1:3306/semi_project";
         String user = "root";
-        String password = "*khacademy!";
+        String password = "root";
 
         try {
             // mysql 접속
