@@ -45,7 +45,7 @@ Scanner sc = new Scanner(System.in);
                String questions_uid = rs.getString("QUESTIONS_UID");
                System.out.println("Q" + questions_uid + ".");
                System.out.println(rs.getString("CONTENTS"));
-               answerList(connection ,preparedStatement ,statement, name, questions_uid); // 답변리스트 조회로
+               answerList(connection ,preparedStatement ,statement, name, Integer.toString(lastPid), questions_uid); // 답변리스트 조회로
             }
 
             rs.close();
@@ -59,7 +59,7 @@ Scanner sc = new Scanner(System.in);
    }
 
    //
-   public void answerList(Connection connection, PreparedStatement preparedStatement, Statement statement, String participants_uid, String question_uid) {
+   public void answerList(Connection connection, PreparedStatement preparedStatement, Statement statement, String name, String lastPid, String questions_uid) {
       String query = "SELECT * FROM ANSWERS ORDER BY ANSWER_UID";
 
       try {
@@ -73,7 +73,7 @@ Scanner sc = new Scanner(System.in);
             System.out.println("      ");
             System.out.println("답:>>>");
             String answer_id = sc.nextLine();
-            saveSurvey(connection, preparedStatement, statement, participants_uid, answer_id, question_uid);
+            saveSurvey(connection, preparedStatement, statement, name, lastPid, questions_uid, answer_uid);
       
       } catch (SQLException e) {
          e.printStackTrace();
@@ -87,9 +87,10 @@ Scanner sc = new Scanner(System.in);
    //statement의 executeQuery는 반복 수행할 수 없다->한 번 수행 후에는 close 후에 반복될 때마다 statement를 새로 생성해서 사용해보기
 
    // result 결과값 저장하는 쿼리
-   public void saveSurvey(Connection connection, PreparedStatement preparedStatement, Statement statement, String participants_uid, String answer_uid, String questions_uid) {
+   public void saveSurvey(Connection connection, PreparedStatement preparedStatement, Statement statement, 
+   String name, String lastPid, String questions_uid, String answer_uid) {
       try {
-         String query = "INSERT INTO result (PARTICIPANTS_UID, ANSWER_UID, QUESTIONS_UID) VALUES ('?', '?', '?')";
+         String query = "INSERT INTO result (PARTICIPANTS_UID, ANSWER_UID, QUESTIONS_UID) VALUES (?, ?, ?)";
          preparedStatement = connection.prepareStatement(query);
          preparedStatement.setString(1, participants_uid);
          preparedStatement.setString(2, answer_uid);
