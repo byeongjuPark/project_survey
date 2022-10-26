@@ -68,27 +68,35 @@ public class Result {
         try {
             String queryAnswer = "SELECT QUESTIONS_UID,ANSWER_UID FROM result ORDER BY QUESTIONS_UID;";
             String queryAnswer2 = "SELECT QUESTIONS_UID,ANSWER_UID FROM result WHERE QUESTIONS_UID = ? ORDER BY QUESTIONS_UID;";
-            preparedStatement = connection.prepareStatement(queryAnswer);
-            ResultSet rs = preparedStatement.executeQuery();
+            preparedStatement = connection.prepareStatement(queryAnswer2);
+            ResultSet rs = statement.executeQuery(queryAnswer);
             while(rs.next()){ // 문항번호를 돌리는 while문
                 String qid = rs.getString("QUESTIONS_UID");
-                preparedStatement.setString(1, qid);
+                preparedStatement.setString(1, qid); //
                 ResultSet rs2 = preparedStatement.executeQuery(); 
                 while(rs2.next()){//답을 돌리는 while문
                     
-                    if(rs.getString("ANSWER_UID").equals("1")){
+                    if(rs2.getString("ANSWER_UID").equals("1")){
                         resultArr[0]++;
-                    }else if(rs.getString("ANSWER_UID").equals("2")){
+                    }else if(rs2.getString("ANSWER_UID").equals("2")){
                         resultArr[1]++;
-                    } else if(rs.getString("ANSWER_UID").equals("3")) {
+                    } else if(rs2.getString("ANSWER_UID").equals("3")) {
                         resultArr[2]++;
-                    } else if(rs.getString("ANSWER_UID").equals("4")) {
+                    } else if(rs2.getString("ANSWER_UID").equals("4")) {
                         resultArr[3]++;
-                    } else if(rs.getString("ANSWER_UID").equals("5")) {
+                    } else if(rs2.getString("ANSWER_UID").equals("5")) {
                         resultArr[4]++;
                     }
+
                 }
-              System.out.print(resultArr+ "");
+                System.out.print("Q"+rs.getString("QUESTIONS_UID") + " ");
+                System.out.print(resultArr[0]+ "   ");
+                System.out.print(resultArr[1]+ "   ");
+                System.out.print(resultArr[2]+ "   ");
+                System.out.print(resultArr[3]+ "   ");
+                System.out.print(resultArr[4]+ "   ");
+                System.out.println();
+                
             }
 
             

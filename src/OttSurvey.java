@@ -73,7 +73,7 @@ Scanner sc = new Scanner(System.in);
             System.out.println("      ");
             System.out.println("답:>>>");
             String answer_id = sc.nextLine();
-            saveSurvey(connection, preparedStatement, statement, name, lastPid, questions_uid, answer_uid);
+            //saveSurvey(connection, preparedStatement, statement, name, lastPid, questions_uid, answer_uid);
       
       } catch (SQLException e) {
          e.printStackTrace();
@@ -92,7 +92,7 @@ Scanner sc = new Scanner(System.in);
       try {
          String query = "INSERT INTO result (PARTICIPANTS_UID, ANSWER_UID, QUESTIONS_UID) VALUES (?, ?, ?)";
          preparedStatement = connection.prepareStatement(query);
-         preparedStatement.setString(1, participants_uid);
+         //preparedStatement.setString(1, participants_uid);
          preparedStatement.setString(2, answer_uid);
          preparedStatement.setString(3, questions_uid);
          preparedStatement.executeQuery();
