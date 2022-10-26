@@ -35,6 +35,8 @@ public class Result {
             String query = "SELECT PARTICIPANTS_UID, NAME FROM participants";
             // sql문 중간에 붙은 ? 는 밑에서 preparedStatement.setString()을 통해서 치환해줄 예정
             String queryAnswer = "SELECT ANSWER_UID FROM RESULT WHERE PARTICIPANTS_UID = ? ORDER BY QUESTIONS_UID;";
+
+            
             ResultSet resultSet = statement.executeQuery(query);
             // PreparedStatement --> Statement 의 상위호환..? 동적으로 sql문을 실행하도록 도와줌
             preparedStatement = connection.prepareStatement(queryAnswer);
@@ -61,38 +63,65 @@ public class Result {
     // 2. 질문 별 총 답변 수
     //sql에서 통계를 낼건지..vs 자바로 통계를 낼건지...
     public void calculateAnswers(Connection connection, Statement statement, PreparedStatement preparedStatement) {
-    System.out.println("질문 별 총 답변 수");
-
+        System.out.println("질문 별 총 답변 수");
+        int resultArr[] = {0,0,0,0,0};
         try {
-            String queryAnswer = "SELECT COUNT(QUESTIONS_UID) FROM QUESTIONS;";
+            String queryAnswer = "SELECT QUESTIONS_UID,ANSWER_UID FROM result ORDER BY QUESTIONS_UID;";
+            String queryAnswer2 = "SELECT QUESTIONS_UID,ANSWER_UID FROM result WHERE QUESTIONS_UID = ? ORDER BY QUESTIONS_UID;";
             preparedStatement = connection.prepareStatement(queryAnswer);
-            ResultSet resultSet_QuestionCount = statement.executeQuery("select count(Questions_uid) from Questions");
-            int qC = 0;
-            while(resultSet_QuestionCount.next()) {
-                qC = Integer.parseInt(resultSet_QuestionCount.getString("count(Questions_uid)"));
+            ResultSet rs = preparedStatement.executeQuery();
+            while(rs.next()){ // 문항번호를 돌리는 while문
+                String qid = rs.getString("QUESTIONS_UID");
+                preparedStatement.setString(1, qid);
+                ResultSet rs2 = preparedStatement.executeQuery(); 
+                while(rs2.next()){//답을 돌리는 while문
+                    
+                    if(rs.getString("ANSWER_UID").equals("1")){
+                        resultArr[0]++;
+                    }else if(rs.getString("ANSWER_UID").equals("2")){
+                        resultArr[1]++;
+                    }
+                }
+                //출력문...
             }
 
-            for (int i = 0; i<qC; i++) {
-                String Questions = "Q"+(i+1);
-                preparedStatement.setString(1, Questions);
-                preparedStatement.setString(2, Questions);
-                preparedStatement.setString(3, Questions);
-                preparedStatement.setString(4, Questions);
-                preparedStatement.setString(5, Questions);
-                preparedStatement.setString(6, Questions);
-                preparedStatement.setString(7, Questions);
+            
 
-                ResultSet resultSet = preparedStatement.executeQuery();
 
-                resultSet.next();
-                int count1, count2, count3, count4, count5;
-                count1 = resultSet.getInt("1");
-                count2 = resultSet.getInt("2");
-                count3 = resultSet.getInt("3");
-                count4 = resultSet.getInt("4");
-                count5 = resultSet.getInt("5");
 
-                System.out.printf("질문" + (i+1), count1, count2, count3, count4, count5);
+
+
+
+
+
+            //ResultSet resultSet_QuestionCount = statement.executeQuery("select count(Questions_uid) from Questions");
+            // int qC = 0;
+            // while(resultSet_QuestionCount.next()) {
+            //     qC = Integer.parseInt(resultSet_QuestionCount.getString("count(Questions_uid)"));
+            // }
+
+            // for (int i = 0; i<qC; i++) {
+            //     String Questions = Integer.toString(i+1); // i+1 + "";
+            //     System.out.print("Q" + Questions);
+            //     preparedStatement.setString(1, Questions); // --> 
+            //     preparedStatement.setString(2, Questions);
+            //     preparedStatement.setString(3, Questions);
+            //     preparedStatement.setString(4, Questions);
+            //     preparedStatement.setString(5, Questions);
+            //     preparedStatement.setString(6, Questions);
+            //     preparedStatement.setString(7, Questions);
+
+            //     ResultSet resultSet = preparedStatement.executeQuery();
+
+            //     resultSet.next();
+            //     int count1, count2, count3, count4, count5;
+            //     count1 = resultSet.getInt("1");
+            //     count2 = resultSet.getInt("2");
+            //     count3 = resultSet.getInt("3");
+            //     count4 = resultSet.getInt("4");
+            //     count5 = resultSet.getInt("5");
+
+            //     System.out.printf("질문" + (i+1), count1, count2, count3, count4, count5);
 
             }
             /*/
