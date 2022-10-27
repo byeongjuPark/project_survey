@@ -1,11 +1,16 @@
 # 집에가고싶조 세미 프로젝트
+## Contents
+ * OTT서비스 만족도에 관한 설문조사 프로그램
 ## Members
 ### 박병주  
 * 통계 1 구현
+* Result.java
 ### 윤선아
-* 설문 진행 구현  
+* 설문 진행 구현
+* OttSurvey.java  
 ### 박찬희
 * 메인, 통계 2 구현
+* Main.java / Result.java
 ## 프로젝트 구성
 ### 화면정의서
 - [화면정의서](./docs/etc/%ED%99%94%EB%A9%B4%EC%A0%95%EC%9D%98%EC%84%9C%20(%EC%B5%9C%EC%A2%85).pdf))
