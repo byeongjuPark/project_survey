@@ -6,7 +6,7 @@ public class Result {
     int check = 0;
 
     // ArrayList<String> list = null;
-    // 0. 초기 출력
+    // 0. 초기 출력1
     public void printCalMenu(Connection connection, Statement statement, PreparedStatement preparedStatement) {
 
         String input;
