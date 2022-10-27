@@ -1,4 +1,4 @@
-![Generic badge](https://img.shields.io/badge/java-yellowgreen.svg) ![Generic badge](https://img.shields.io/badge/MySQL-green.svg) ![Generic badge](https://img.shields.io/badge/VisualStudioCode-orange.svg)
+![Generic badge](https://img.shields.io/badge/Java-yellowgreen.svg) ![Generic badge](https://img.shields.io/badge/MySQL-green.svg) ![Generic badge](https://img.shields.io/badge/VisualStudioCode-orange.svg)
 # 🏡집에가고싶조 세미 프로젝트🏡
 ## Contents
   📺OTT플랫폼 서비스 만족도에 관한 설문조사 프로그램
